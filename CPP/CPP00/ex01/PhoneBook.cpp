@@ -6,7 +6,7 @@
 /*   By: jodos-sa <jodos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 16:03:15 by jodos-sa          #+#    #+#             */
-/*   Updated: 2023/09/16 17:08:09 by jodos-sa         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:07:08 by jodos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,28 @@ void	PhoneBook::search(void)
 		std::cout << std::endl << "Phonebook is empty!" << std::endl;
 		return ;
 	}
-	while (!std::cin.eof())
+	str = "";
+	while (!std::cin.eof() && str == "")
 	{
 		std::cout << "Select an index: ";
-		std::cin.ignore();
-		if (std::getline(std::cin, str) && str != "")
+		if (std::cin >> str && str != "")
 		{
-			if (str.size() == 1 && str[0] >= '1' && str[0] <= '8' && \
+			if (str.size() == 1 && str[0] >= '1' && str[0] <= '8' &&
 					this->_cont[str[0] - 1 - '0'].get_fname().size())
 				break ;
 		}
 		if (str != "")
 			std::cout << "Invalid index!" << std::endl;
+		str = "";
 	}
-	/* if (!std::cin.eof())
-		this->print(this->_cont[str[0] - 1 - '0']); */
+	print(this->_cont[str[0] - 1 - '0']);
+}
+
+void	PhoneBook::print(Contact contact)
+{
+	std::cout << "First name: " << contact.get_fname() << std::endl;
+	std::cout << "Last name: " << contact.get_lname() << std::endl;
+	std::cout << "Nickname: " << contact.get_nick() << std::endl;
+	std::cout << "Phone number: " << contact.get_phone_num() << std::endl;
+	std::cout << "Darkest secret: " << contact.get_secret() << std::endl;
 }
