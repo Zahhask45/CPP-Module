@@ -17,7 +17,7 @@ _GONE		=	\e[2K\r
 
 
 CXX			=	c++
-CXXFLAGS	=	-Werror -Wall -Wextra -g
+CXXFLAGS	=	-Wall -Werror -Wextra -pedantic -std=c++98 -g -fsanitize=address
 
 NAME		=	sed
 
