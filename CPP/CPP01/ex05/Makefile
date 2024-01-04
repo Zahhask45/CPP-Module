@@ -16,10 +16,10 @@ _GONE		=	\e[2K\r
 
 
 
-CXX			=	g++
+CXX			=	c++
 CXXFLAGS	=	-Wall -Werror -Wextra -pedantic -std=c++98 -g -fsanitize=address
 
-NAME		=	Moar
+NAME		=	harl
 
 SRC_DIR		=	./src/
 OBJ_DIR		=	./obj/
@@ -27,8 +27,7 @@ OBJ_DIR		=	./obj/
 INCLUDE		=	-I ./inc/
 
 SRCS		=	main.cpp \
-				Zombie.cpp \
-				zombieHorde.cpp
+				Harl.cpp
 
 SRC			=	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS		=	$(SRCS:.cpp=.o)
