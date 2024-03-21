@@ -8,7 +8,7 @@ using std::endl;
 int main(void) {
     ScavTrap first("GU4RD-TP");
 
-    //first.guardGate();
+    first.guardGate();
    // first.attack("Handsome Jack");
     // cout << first.getName() << " has " << first.getEnergy() << " energy"
     //      << endl;

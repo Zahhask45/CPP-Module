@@ -6,14 +6,14 @@
 #define _UNDER			"\033[4m"
 
 #define _REV			"\033[7m"
-#define _BLACK			"\033[1;30m"
-#define _RED			"\033[1;31m"
-#define _GREEN			"\033[1;32m"
-#define _YELLOW			"\033[1;33m"
-#define _BLUE			"\033[1;34m"
-#define _PURPLE			"\033[1;35m"
-#define _CYAN			"\033[1;36m"
-#define _WHITE			"\033[1;37m"
+#define _BLACK			"\033[0;30m"
+#define _RED			"\033[0;31m"
+#define _GREEN			"\033[0;32m"
+#define _YELLOW			"\033[0;33m"
+#define _BLUE			"\033[0;34m"
+#define _PURPLE			"\033[0;35m"
+#define _CYAN			"\033[0;36m"
+#define _WHITE			"\033[0;37m"
 
 #include <iostream>
 #include <string>
