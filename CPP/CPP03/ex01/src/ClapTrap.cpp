@@ -3,24 +3,24 @@
 
 ClapTrap::ClapTrap() : name("CL4P-TP"), health_points(10), energy_points(10), attack_damage(0)
 {
-	std::cout << "ClapTrap named: " << this->name << " created" << std::endl;
+	std::cout << _GREEN << "ClapTrap named: " << this->name << " created" << _END << std::endl;
 
 }
 
 ClapTrap::ClapTrap(std::string name) : name(name), health_points(10), energy_points(10), attack_damage(0)
 {
-	std::cout << "ClapTrap named: " << this->name << " created" << std::endl;
+	std::cout << _GREEN << "ClapTrap named: " << this->name << " created" << _END << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &rhs)
 {
 	*this = rhs;
-	std::cout << "ClapTrap copy constructor called" << std::endl;
+	std::cout << _GREEN << "ClapTrap copy constructor called" << _END << std::endl;
 }
 
 ClapTrap::~ClapTrap(void)
 {
-	std::cout << "ClapTrap named: " << this->name << " destroyed" << std::endl;
+	std::cout << _GREEN << "ClapTrap named: " << this->name << " destroyed" << _END << std::endl;
 	return ;
 }
 
