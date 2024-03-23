@@ -6,17 +6,17 @@ using std::cout;
 using std::endl;
 
 int main(void) {
+    ClapTrap mainboss("Original");
     ScavTrap first("GU4RD-TP");
 
     first.guardGate();
-   // first.attack("Handsome Jack");
-    // cout << first.getName() << " has " << first.getEnergy() << " energy"
-    //      << endl;
+    first.attack(mainboss.getName());
+    cout << first.getName() << " has " << first.getEnergy() << " energy"
+         << endl;
 
-    // cout << "--------------------------------------------------" << endl;
+    cout << "--------------------------------------------------" << endl;
 
-    // ScavTrap second = first;
+    ScavTrap second = first;
 
-    return 0;
     return 0;
 }
