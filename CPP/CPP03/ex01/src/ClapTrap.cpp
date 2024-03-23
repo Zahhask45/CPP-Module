@@ -20,7 +20,7 @@ ClapTrap::ClapTrap(const ClapTrap &rhs)
 
 ClapTrap::~ClapTrap(void)
 {
-	std::cout << _YELLOW << "[ClapTrap named: " << this->name << " destroyed]" << _END << std::endl;
+	std::cout << _YELLOW << "[ClapTrap named: " << this->name << " destroyed] For you...I commit...seddoku..." << _END << std::endl;
 	return ;
 }
 
@@ -51,8 +51,19 @@ void ClapTrap::attack(const std::string &target)
 
 void ClapTrap::takeDamage(unsigned int amount)
 {
+	if (this->health_points <= 0)
+	{
+		std::cout << _YELLOW << "The robot is dead, long live the robot!" << _END << std::endl;
+		return ;
+	}
 	std::cout << _YELLOW << "[ClapTrap " << this->name << "] takes "
 				<< amount << " of damage!" << _END << std::endl;
+	if (amount >= this->health_points){
+		this->health_points = 0;
+		std::cout << _YELLOW << "[ClapTrap as died] Don't forget me!" << _END << std::endl;
+	}
+	else
+		this->health_points -= amount;
 }
 
 void ClapTrap::beRepaired(unsigned int amount)
