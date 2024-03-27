@@ -2,12 +2,16 @@
 #define ICE_HPP
 
 #include "colors.hpp"
+#include "AMateria.hpp"
 
 class Ice: public AMateria{
 public:
 	Ice();
 	~Ice();
 	Ice(const Ice &);
+
+	Ice &operator=(const Ice &rhs);
+
 
 	AMateria* clone() const;
 	void use(ICharacter& target);

@@ -28,6 +28,10 @@ INCLUDE		=	-I ./inc/
 
 SRCS		=	main.cpp \
 				AMateria.cpp \
+				Character.cpp \
+				Cure.cpp \
+				Ice.cpp \
+				MateriaSource.cpp
 
 SRC			=	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS		=	$(SRCS:.cpp=.o)

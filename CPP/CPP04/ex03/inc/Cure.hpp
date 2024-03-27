@@ -2,6 +2,7 @@
 #define CURE_HPP
 
 #include "colors.hpp"
+#include "AMateria.hpp"
 
 class Cure: public AMateria{
 public:
@@ -9,8 +10,10 @@ public:
 	~Cure();
 	Cure(const Cure &);
 
-	void clone(void); //Again need to change this later when i discover what it is
-	void use(ICharacter&);
+	Cure &operator=(const Cure &rhs);
+
+	AMateria* clone() const;
+	void use(ICharacter& target);
 	
 protected:
 	std::string type; // will be "cure"

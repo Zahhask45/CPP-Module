@@ -2,6 +2,7 @@
 #define ICHARACTER_HPP
 
 #include "colors.hpp"
+#include "AMateria.hpp"
 
 class ICharacter{
 public:

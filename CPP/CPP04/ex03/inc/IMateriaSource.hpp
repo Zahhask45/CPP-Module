@@ -2,6 +2,7 @@
 #define IMATERIASOURCE_HPP
 
 #include "colors.hpp"
+#include "AMateria.hpp"
 
 class IMateriaSource
 {

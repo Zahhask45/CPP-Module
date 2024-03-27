@@ -1,4 +1,5 @@
 #include "colors.hpp"
+#include "Ice.hpp"
 
 Ice::Ice(): type("ice"){
 	std::cout << "[Ice constructor]" << std::endl;
@@ -11,6 +12,14 @@ Ice::~Ice(){
 Ice::Ice(const Ice &src){
 	std::cout << "[Ice copy constructor]" << std::endl;
 }
+
+Ice &Ice::operator=(const Ice &rhs){
+	std::cout << "[Ice operator=]" << std::endl;
+	if (this != &rhs)
+		this->type = rhs.type;
+	return *this;
+}
+
 
 AMateria *Ice::clone() const{
 	AMateria *NewMateria = new Ice();

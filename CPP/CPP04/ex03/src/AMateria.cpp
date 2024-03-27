@@ -1,4 +1,6 @@
 #include "colors.hpp"
+#include "AMateria.hpp"
+
 
 AMateria::AMateria(): type("AMateria"){
 	std::cout << "[AMateria contructor called]" << std::endl;

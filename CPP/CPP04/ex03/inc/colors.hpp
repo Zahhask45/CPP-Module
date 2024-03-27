@@ -18,12 +18,4 @@
 
 #include <iostream>
 #include <string>
-#include "AMateria.hpp"
-#include "IMateriaSource.hpp"
-#include "ICharacter.hpp"
-#include "Ice.hpp"
-#include "Cure.hpp"
-#include "Character.hpp"
-#include "MateriaSource.hpp"
-
 #endif
