@@ -23,7 +23,7 @@ Ice &Ice::operator=(const Ice &rhs){
 
 
 AMateria *Ice::clone() const{
-	AMateria *NewMateria = new Ice();
+	AMateria *NewMateria = new Ice(*this);
 
 	return NewMateria;
 }

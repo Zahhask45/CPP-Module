@@ -7,8 +7,10 @@ MateriaSource::MateriaSource(){
 }
 
 MateriaSource::~MateriaSource(){
-	for (size_t i = 0; i < 4; i++)
-		delete this->slots[i];
+	for (size_t i = 0; i < 4; i++){
+		if (this->slots[i])
+			delete this->slots[i];
+	}
 }
 
 MateriaSource::MateriaSource(const MateriaSource &src){

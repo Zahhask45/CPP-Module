@@ -17,7 +17,7 @@ _GONE		=	\e[2K\r
 
 
 CXX			=	g++
-CXXFLAGS	=	-Wall -Werror -Wextra -pedantic -std=c++98 -g -fsanitize=address
+CXXFLAGS	=	-Wall -Werror -Wextra -pedantic -std=c++98 -g #-fsanitize=address
 
 NAME		=	Materia
 

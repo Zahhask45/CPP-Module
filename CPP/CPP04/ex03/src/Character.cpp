@@ -12,7 +12,7 @@ Character::~Character(){
 	std::cout << "[Character Destructor]" << std::endl;
 	for (size_t i = 0; i < 4; i++)
 	{
-		if (this->inventory[i] != NULL)
+		if (this->inventory[i])
 			delete this->inventory[i];
 	}
 }
@@ -53,8 +53,11 @@ void Character::equip(AMateria* m){
 void Character::unequip(int idx){
 	if (idx < 0 || idx > 3)
 		return ;
-	if (this->inventory[idx])
+	if (this->inventory[idx]){
+		delete this->inventory[idx];
 		this->inventory[idx] = NULL;
+
+	}
 	std::cout << _GREEN << this->Name << " removed " << this->inventory[idx]->getType()
 		<< " Materia from the inventory slot n" << idx << _END << std::endl;
 }

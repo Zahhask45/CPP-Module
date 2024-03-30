@@ -22,7 +22,7 @@ Cure &Cure::operator=(const Cure &rhs){
 }
 
 AMateria* Cure::clone() const{
-	AMateria* NewClone = new Cure();
+	AMateria* NewClone = new Cure(*this);
 	return NewClone;
 }
 
