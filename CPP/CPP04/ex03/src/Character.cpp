@@ -66,7 +66,9 @@ void Character::use(int idx, ICharacter& target){
 		this->inventory[idx]->use(target);
 }
 
-
+std::string const &Character::getName() const{
+	return this->Name;
+}
 
 
 

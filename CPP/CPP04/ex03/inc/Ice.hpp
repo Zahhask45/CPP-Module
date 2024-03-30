@@ -13,8 +13,8 @@ public:
 	Ice &operator=(const Ice &rhs);
 
 
-	AMateria* clone() const;
-	void use(ICharacter& target);
+	virtual AMateria* clone() const;
+	virtual void use(ICharacter& target);
 
 protected:
 	std::string type; // type will be "ice" not anything else

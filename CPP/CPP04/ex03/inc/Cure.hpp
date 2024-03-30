@@ -12,11 +12,8 @@ public:
 
 	Cure &operator=(const Cure &rhs);
 
-	AMateria* clone() const;
-	void use(ICharacter& target);
-	
-protected:
-	std::string type; // will be "cure"
+	virtual AMateria* clone() const;
+	virtual void use(ICharacter& target);
 };
 
 #endif

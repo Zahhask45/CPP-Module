@@ -30,4 +30,8 @@ std::string const &AMateria::getType() const{
 	return this->type;
 }
 
+void    AMateria::use( ICharacter& target )
+{
+    std::cout << "AMateria " << this->type << " used on " << target.getName() << std::endl;
+}
 

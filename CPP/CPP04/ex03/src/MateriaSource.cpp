@@ -27,12 +27,10 @@ void MateriaSource::learnMateria(AMateria *m){
 }
 
 AMateria* MateriaSource::createMateria(std::string const &type){
-	if (type == "ice")
-		AMateria *NewMateria = new Ice();
-	else if (type == "cure")
-		AMateria *NewMateria = new Cure();
-	else
-		std::cout << "That Materia does not exist yet" << std::endl;
+	for ( int i = 0; i < 4; i++ )
+        if ( this->slots[i] && this->slots[i]->getType() == type )
+            return this->slots[i]->clone();
+    return NULL;
 }
 
 

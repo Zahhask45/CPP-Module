@@ -1,7 +1,7 @@
 #include "colors.hpp"
 #include "Cure.hpp"
 
-Cure::Cure(): type("cure"){
+Cure::Cure(): AMateria("cure"){
 	std::cout << "[Cure Constructor]" << std::endl;
 }
 
@@ -9,7 +9,7 @@ Cure::~Cure(){
 	std::cout << "[Cure Destructor]" << std::endl;
 }
 
-Cure::Cure(const Cure &src){
+Cure::Cure(const Cure &src): AMateria("cure"){
 	std::cout << "[Cure Copy constructor]" << std::endl;
 	*this = src;
 }
