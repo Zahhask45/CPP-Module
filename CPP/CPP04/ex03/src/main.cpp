@@ -18,8 +18,7 @@ int main(){
 	src->learnMateria(new Ice());
 	src->learnMateria(new Ice());
 	src->learnMateria(new Cure());
-	src->learnMateria(new Cure());
-	src->learnMateria(new Cure());
+	src->learnMateria(new Cure());	
 
 	AMateria *spells_prot;
 	AMateria *spells_prot2;
