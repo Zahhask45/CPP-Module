@@ -16,7 +16,7 @@ _GONE		=	\e[2K\r
 
 
 
-CXX			=	g++
+CXX			=	c++
 CXXFLAGS	=	-Wall -Werror -Wextra -pedantic -std=c++98 -g -fsanitize=address
 
 NAME		=	ClapTrap

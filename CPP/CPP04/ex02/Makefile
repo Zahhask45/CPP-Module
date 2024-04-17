@@ -3,7 +3,7 @@ _BOLD		=	\e[1m
 _UNDER		=	\e[4m
 _REV		=	\e[7m
 
-_BLACK		=	\e[1;30m
+_WHITE		=	\e[1;30m
 _RED		=	\e[1;31m
 _GREEN		=	\e[1;32m
 _YELLOW		=	\e[1;33m
@@ -19,7 +19,7 @@ _GONE		=	\e[2K\r
 CXX			=	c++
 CXXFLAGS	=	-Wall -Werror -Wextra -pedantic -std=c++98 -g -fsanitize=address
 
-NAME		=	DiamondTrap
+NAME		=	Abstract
 
 SRC_DIR		=	./src/
 OBJ_DIR		=	./obj/
@@ -27,10 +27,12 @@ OBJ_DIR		=	./obj/
 INCLUDE		=	-I ./inc/
 
 SRCS		=	main.cpp \
-				ClapTrap.cpp \
-				ScavTrap.cpp \
-				FragTrap.cpp \
-				DiamondTrap.cpp
+				AAnimal.cpp \
+				Dog.cpp \
+				Cat.cpp \
+				WrongAnimal.cpp \
+				WrongCat.cpp \
+				Brain.cpp \
 
 SRC			=	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS		=	$(SRCS:.cpp=.o)
