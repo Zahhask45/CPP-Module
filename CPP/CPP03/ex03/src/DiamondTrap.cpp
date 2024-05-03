@@ -39,5 +39,5 @@ DiamondTrap& DiamondTrap::operator=(const DiamondTrap &rhs)
 }
 
 void DiamondTrap::whoAmI(){
-    std::cout << _WHITE << "Allow me to introduce myself - I am a DI4MOND-TP steward bot, but my friends call me DiamondTrap! " << _END << std::endl;
+    std::cout << _WHITE << "Allow me to introduce myself - I am a " << this->name << " steward bot, but my friends call me " << this->getName() << _END << std::endl;
 }
