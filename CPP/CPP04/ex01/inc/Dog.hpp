@@ -14,9 +14,10 @@ public:
 
 	void makeSound() const;
 	std::string getType() const;
+	Brain *getBrain() const;
 
 private:
-	Brain *brain; //falta dar start a isto
+	Brain *brain;
 };
 
 

@@ -6,7 +6,11 @@
 #include "Brain.hpp"
 
 int main() {
-
+	Dog *one = new Dog();
+	Dog *two = new Dog();
+	*two = *one; // will make a deep copy
+    delete one;
+	delete two;
     std::cout << "--------------Subject example-----------------" << std::endl;
 
     const Animal *j = new Dog();
