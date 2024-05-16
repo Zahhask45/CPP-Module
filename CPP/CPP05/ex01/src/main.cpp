@@ -55,7 +55,7 @@ int main() {
     try {
         Bureaucrat obj("John", 0);
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }
@@ -65,7 +65,7 @@ int main() {
     try {
         Bureaucrat obj("John", 151);
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }
@@ -82,7 +82,7 @@ int main() {
         obj.increment();
         std::cout << obj << std::endl;
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }
@@ -96,7 +96,7 @@ int main() {
         obj.decrement();
         std::cout << obj << std::endl;
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }
@@ -109,7 +109,7 @@ int main() {
         obj.decrement();
         std::cout << obj << std::endl;
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }
@@ -122,7 +122,7 @@ int main() {
         obj.increment();
         std::cout << obj << std::endl;
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }
@@ -138,7 +138,7 @@ int main() {
         std::cout << one << std::endl;
         std::cout << two << std::endl;
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }
@@ -156,7 +156,7 @@ int main() {
         std::cout << one << std::endl;
         std::cout << two << std::endl;
     } catch (std::exception &e) {
-        std::cout << _RED << "Execption: " << e.what() << _END << std::endl;
+        std::cout << _RED << "Exception: " << e.what() << _END << std::endl;
     }
     std::cout << std::endl;
 }

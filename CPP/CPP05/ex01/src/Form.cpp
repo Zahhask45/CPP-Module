@@ -5,9 +5,9 @@ Form::Form():_name("Sheet 1"), _sign(false), _grade_sign(10), _grade_exec(15){}
 Form::Form(const std::string &name, int grade_sign, int grade_exec)
 	:_name(name), _sign(false), _grade_sign(grade_sign), _grade_exec(grade_exec){
 	if (_grade_sign < 1)
-		throw Bureaucrat::GradeTooHighException();
+		throw Form::GradeTooHighException();
 	if (_grade_sign > 150)
-		throw Bureaucrat::GradeTooLowException();
+		throw Form::GradeTooLowException();
 }
 
 Form::Form(const Form &src)
@@ -42,12 +42,20 @@ int Form::get_grade_exec() const{
 
 void Form::beSigned(const Bureaucrat &src){
 	if (this->_grade_sign < src.getgrade())
-		throw Bureaucrat::GradeTooLowException();
+		throw Form::GradeTooLowException();
 	this->_sign = true;
 }
 
 std::ostream &operator<<(std::ostream &o, const Form &obj){
 	o << obj.get_name() << ", Form grade needed to sign" << obj.get_grade_exec();
 	return o;
+}
+
+const char *Form::GradeTooHighException::what() const throw() {
+    return ("Grade too High");
+}
+
+const char *Form::GradeTooLowException::what() const throw() {
+    return ("Grade too Low");
 }
 
