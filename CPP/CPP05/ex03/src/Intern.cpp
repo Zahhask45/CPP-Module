@@ -32,6 +32,7 @@ AForm *Intern::makeForm(const std::string &form_name, const std::string &target)
 
 	for (size_t i = 0; i < 3; i++){
 		if (form_name == formTypes[i]){
+			std::cout << "Intern creates " << form_name << std::endl;
 			return ((this->*memberFuncs[i])(target));
 		}
 	}

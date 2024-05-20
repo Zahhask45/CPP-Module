@@ -26,8 +26,8 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &rhs){
 
 
 
-std::string Bureaucrat::getname() const {return this->_name;}
-int Bureaucrat::getgrade() const{return this->_grade;}
+std::string Bureaucrat::getName() const {return this->_name;}
+int Bureaucrat::getGrade() const{return this->_grade;}
 
 
 

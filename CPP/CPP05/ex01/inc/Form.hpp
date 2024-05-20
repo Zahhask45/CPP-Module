@@ -22,6 +22,7 @@ public:
 	bool get_sign();
 	int get_grade_sign() const;
 	int get_grade_exec() const;
+	int get_sign() const;
 
 	Form &operator=(const Form &rhs);
 

@@ -40,6 +40,10 @@ int Form::get_grade_exec() const{
 	return this->_grade_exec;
 }
 
+int Form::get_sign() const{
+	return this->_sign;
+}
+
 void Form::beSigned(const Bureaucrat &src){
 	if (this->_grade_sign < src.getgrade())
 		throw Form::GradeTooLowException();
@@ -47,7 +51,12 @@ void Form::beSigned(const Bureaucrat &src){
 }
 
 std::ostream &operator<<(std::ostream &o, const Form &obj){
-	o << obj.get_name() << ", Form grade needed to sign" << obj.get_grade_exec();
+	o << obj.get_name() << ", Form grade needed to sign " << obj.get_grade_sign() << ", grade needed to execute "
+		<< obj.get_grade_exec();
+	if (obj.get_sign())
+		o << " and form is signed" << std::endl;
+	else
+		o << " and form is not signed" << std::endl;
 	return o;
 }
 
