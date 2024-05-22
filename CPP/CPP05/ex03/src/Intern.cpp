@@ -26,7 +26,7 @@ AForm *Intern::shrubberyForm(const std::string &target){
 
 AForm *Intern::makeForm(const std::string &form_name, const std::string &target){
 	AForm *(Intern::*memberFuncs[])(const std::string &target) = {
-		&Intern::pardonForm, &Intern::robotomyForm, &Intern::shrubberyForm};
+		&Intern::shrubberyForm, &Intern::robotomyForm, &Intern::pardonForm};
 
 	std::string formTypes[] = {"shrubbery", "robotomy", "pardon"};
 
@@ -36,7 +36,7 @@ AForm *Intern::makeForm(const std::string &form_name, const std::string &target)
 			return ((this->*memberFuncs[i])(target));
 		}
 	}
-	std::cout << "Form not founded" << std::endl;
+	std::cout << "Form not found" << std::endl;
 	return NULL;
 }
 

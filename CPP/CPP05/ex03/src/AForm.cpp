@@ -4,9 +4,9 @@ AForm::AForm():_name("Sheet 1"), _sign(false), _grade_sign(10), _grade_exec(15){
 
 AForm::AForm(const std::string &name, int grade_sign, int grade_exec)
 	:_name(name), _sign(false), _grade_sign(grade_sign), _grade_exec(grade_exec){
-	if (_grade_sign < 1)
+	if (_grade_sign < 1 || _grade_exec < 1)
 		throw AForm::GradeTooHighException();
-	if (_grade_sign > 150)
+	if (_grade_sign > 150 || _grade_exec > 150)
 		throw AForm::GradeTooLowException();
 }
 
@@ -28,7 +28,7 @@ std::string AForm::get_name() const{
 	return this->_name;
 }
 
-bool AForm::get_sign(){
+bool AForm::get_sign() const{
 	return this->_sign;
 }
 
@@ -59,7 +59,12 @@ void AForm::execute(Bureaucrat const & executor) const{
 
 
 std::ostream &operator<<(std::ostream &o, const AForm &obj){
-	o << obj.get_name() << ", AForm grade needed to sign" << obj.get_grade_exec();
+	o << obj.get_name() << ", Form grade needed to sign " << obj.get_grade_sign() << ", grade needed to execute "
+		<< obj.get_grade_exec() << " and sign status: ";
+	if (obj.get_sign())
+		std::cout << "True" << std::endl;
+	else
+		std::cout << "False" << std::endl;
 	return o;
 }
 
