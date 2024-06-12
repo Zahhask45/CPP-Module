@@ -44,6 +44,8 @@ int ScalarConverter::detect(const std::string &str){
 		else if (str[i] == '.'){
 			if (isdot == 1)
 				return 0; //! RETURN ERROR
+			if (str[i + 1] == 'f' || str[i + 1] == '\0')
+				return 0;
 			isdot++;
 		}
 		else if (!isdigit(static_cast<unsigned char>(str[i])) && isascii(static_cast<unsigned char>(str[i]))){
@@ -106,6 +108,7 @@ void *ScalarConverter::convert(const std::string &str){
 		literalDouble(str);
 		break;
 	default:
+		std::cout << "Invalid input" << std::endl;
 		break;
 	}
 
