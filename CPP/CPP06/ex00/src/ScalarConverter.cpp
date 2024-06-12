@@ -78,7 +78,7 @@ int ScalarConverter::detect(const std::string &str){
 void *ScalarConverter::convert(const std::string &str){
 	int type;
 	type = detect(str);
-	std::cout << "type: " << type << std::endl << std::endl;
+	// std::cout << "type: " << type << std::endl << std::endl;
 	switch (type)
 	{
 	case ISINF:
@@ -114,7 +114,7 @@ void *ScalarConverter::convert(const std::string &str){
 
 void *ScalarConverter::literalChar(const std::string &str){
 	char c = static_cast<char>(str[0]);
-	std::cout << "char: " << c << std::endl;
+	std::cout << "char: '" << c << "'" << std::endl;
 
 	int i = static_cast<int>(c);
 	std::cout << "int: " << i << std::endl;
@@ -134,7 +134,7 @@ void *ScalarConverter::literalInt(const std::string &str){
 
 	if (i > 32 && i < 127){
 		char c = static_cast<char>(i);
-		std::cout << "char: " << c << std::endl;
+		std::cout << "char: '" << c << "'" << std::endl;
 	}
 	else
 		std::cout << "char: Non displayable" << std::endl;
@@ -153,9 +153,20 @@ void *ScalarConverter::literalInt(const std::string &str){
 void *ScalarConverter::literalFloat(const std::string &str){
 	float f = static_cast<float>(atof(str.c_str()));
 
+	int precision = 0;
+	int dot = 0;
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (dot == 1)
+			precision++;
+		if (str[i] == '.')
+			dot = 1;
+	}
+	precision--; //* Remove the 'f'
+	
 	if (f > 32 && f < 127){
 		char c = static_cast<char>(f);
-		std::cout << "char: " << c << std::endl;
+		std::cout << "char: '" << c << "'" << std::endl;
 	}
 	else
 		std::cout << "char: Non displayable" << std::endl;
@@ -163,20 +174,29 @@ void *ScalarConverter::literalFloat(const std::string &str){
 	int i = static_cast<int>(f);
 	std::cout << "int: " << i << std::endl;
 
-	std::cout << "float: " << f << "f" << std::endl;
+	std::cout << "float: " << std::fixed << std::setprecision(precision) << f << "f" << std::endl;
 
-	float d = static_cast<double>(f);
-	std::cout << "double: " << d << std::endl;
+	double d = static_cast<double>(f);
+	std::cout << "double: " << std::fixed << std::setprecision(precision) << d << std::endl;
 
 	return 0;
 }
 
 void *ScalarConverter::literalDouble(const std::string &str){
 	double d = static_cast<double>(atof(str.c_str()));
+	int precision = 0;
+	int dot = 0;
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (dot == 1)
+			precision++;
+		if (str[i] == '.')
+			dot = 1;
+	}
 
 	if (d > 32 && d < 127){
 		char c = static_cast<char>(d);
-		std::cout << "char: " << c << std::endl;
+		std::cout << "char: '" << c << "'" << std::endl;
 	}
 	else
 		std::cout << "char: Non displayable" << std::endl;
@@ -185,9 +205,9 @@ void *ScalarConverter::literalDouble(const std::string &str){
 	std::cout << "int: " << i << std::endl;
 
 	float f = static_cast<float>(d);
-	std::cout << "float: " << f << "f" << std::endl;
+	std::cout << "float: " << std::fixed << std::setprecision(precision) << f << "f" << std::endl;
 
-	std::cout << "double: " << d << std::endl;
+	std::cout << "double: " << std::fixed << std::setprecision(precision) << d << std::endl;
 
 	return 0;
 }

@@ -19,7 +19,8 @@
 #include <iostream>
 #include <string>
 #include <limits>	// std::numeric_limits
-#include <stdlib.h> //! DONT KNOW IF I CAN HAVE THIS ONE
+#include <stdlib.h>
 #include <math.h>
+#include <iomanip> // setprecision()
 
 #endif
