@@ -4,6 +4,11 @@ ScalarConverter::ScalarConverter(){}
 ScalarConverter::ScalarConverter(const ScalarConverter &src){*this = src;}
 ScalarConverter::~ScalarConverter(){}
 
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &rhs){
+	*this = rhs;
+	return *this;
+}
+
 //* This function is in charge of detecting what literal the string received is
 int ScalarConverter::detect(const std::string &str){
 	size_t l = str.length();
