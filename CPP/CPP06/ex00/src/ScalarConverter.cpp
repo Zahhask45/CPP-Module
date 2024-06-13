@@ -5,7 +5,7 @@ ScalarConverter::ScalarConverter(const ScalarConverter &src){*this = src;}
 ScalarConverter::~ScalarConverter(){}
 
 ScalarConverter &ScalarConverter::operator=(const ScalarConverter &rhs){
-	*this = rhs;
+	(void)rhs;
 	return *this;
 }
 
