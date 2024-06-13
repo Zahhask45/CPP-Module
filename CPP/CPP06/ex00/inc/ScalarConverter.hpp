@@ -16,6 +16,7 @@ private:
 	ScalarConverter(const ScalarConverter &);
 public:
 	~ScalarConverter();
+	ScalarConverter &operator=(const ScalarConverter &rhs);
 	static void *convert(const std::string &str);
 	static void *literalChar(const std::string &str);
 	static void *literalInt(const std::string &str);
