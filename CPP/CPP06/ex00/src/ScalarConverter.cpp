@@ -4,19 +4,7 @@ ScalarConverter::ScalarConverter(){}
 ScalarConverter::ScalarConverter(const ScalarConverter &src){*this = src;}
 ScalarConverter::~ScalarConverter(){}
 
-
-
-//* Detect which literal I received: CHAR, INT, FLOAT and DOUBLE
-//* To find if is CHAR: lenght = 1 and needs to be between 33 and 126 and can't me a number
-//* To find if is INT: is only numbers or digits, does not contain a char neither a f or a "." 
-//* 
-
-
-//* DIFFERENT FOR POSITIVE INT AND NEGATIVE INT
-
-
-//* This function can return a string with the type that it is and in the convert fuction will do the rest
-//! NEED TO TAKE CARE OF nan AND inf AND inff
+//* This function is in charge of detecting what literal the string received is
 int ScalarConverter::detect(const std::string &str){
 	size_t l = str.length();
 	int ischar = 0;
@@ -26,17 +14,17 @@ int ScalarConverter::detect(const std::string &str){
 	int isdouble = 0;
 	int isdot = 0;
 
+	//* Verify if is a char or int
 	if (l == 1){
 		if (!isdigit(static_cast<unsigned char>(str[0])) && isascii(static_cast<unsigned char>(str[0])))
 			return CHAR;
-			//ischar = 1; // return saying that it is a char
 		if (isdigit(static_cast<unsigned char>(str[0])))
 			return INT;
-			//isint = 1; // return saying that it is a int
 	}
-
+	//! Verify MAX_INT and MIN_INT
+	//* Parse the string received
 	for (size_t i = 0; i < l; i++){
-		if ((str[i] == '-' || str[i] == '+')){ //! CHECK LATER
+		if ((str[i] == '-' || str[i] == '+')){
 			if (issign == 1 || (i > 0 && !(str[i - 1] == '-' || str[i - 1] == '+')))
 				return 0; //! RETURN ERROR
 			issign++;
@@ -52,18 +40,16 @@ int ScalarConverter::detect(const std::string &str){
 			ischar++;
 		}
 	}
-	// std::cout << "dot: " << isdot << std::endl;
-	// std::cout << "chars: " << ischar << std::endl;
-
-	if (isdot == 0 && ischar == 0)
+	double ver = static_cast<double>(atof(str.c_str()));
+	//* Return respective literal types
+	if (isdot == 0 && ischar == 0 && ver <= INT_MAX && ver >= INT_MIN)
 		return INT;
-		//isint = 1; // return int
 	if (isdot == 1 && ischar == 0)
 		return DOUBLE;
-		//isdouble = 1; // return double
-	if (isdot == 1 && ischar == 1 && str[l - 1] == 'f')
+	if (isdot == 1 && ischar == 1 && str[l - 1] == 'f' && ver <= MAXFLOAT)
 		return FLOAT;
-		//isfloat == 1; // return float
+	if (ver >= INT_MAX || ver <= INT_MIN)
+		return DOUBLE;
 	
 	
 	//* Detect if is nan or inf
@@ -80,7 +66,6 @@ int ScalarConverter::detect(const std::string &str){
 void *ScalarConverter::convert(const std::string &str){
 	int type;
 	type = detect(str);
-	// std::cout << "type: " << type << std::endl << std::endl;
 	switch (type)
 	{
 	case ISINF:
@@ -189,6 +174,8 @@ void *ScalarConverter::literalDouble(const std::string &str){
 	double d = static_cast<double>(atof(str.c_str()));
 	int precision = 0;
 	int dot = 0;
+
+
 	for (size_t i = 0; i < str.length(); i++)
 	{
 		if (dot == 1)
@@ -205,45 +192,20 @@ void *ScalarConverter::literalDouble(const std::string &str){
 		std::cout << "char: Non displayable" << std::endl;
 
 	int i = static_cast<int>(d);
-	std::cout << "int: " << i << std::endl;
+	if (d >= INT_MAX || d <= INT_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << i << std::endl;
 
 	float f = static_cast<float>(d);
-	std::cout << "float: " << std::fixed << std::setprecision(precision) << f << "f" << std::endl;
+	if (d > std::numeric_limits<float>::max() || d < std::numeric_limits<float>::min())
+		std::cout << "float: impossible" << std::endl;
+	else if (precision > 0)
+		std::cout << "float: " << std::fixed << std::setprecision(precision) << f << "f" << std::endl;
+	else
+		std::cout << "float: " << std::fixed << std::setprecision(precision) << f << ".0f" << std::endl;
 
 	std::cout << "double: " << std::fixed << std::setprecision(precision) << d << std::endl;
 
 	return 0;
 }
-
-/*
-
-void *ScalarConverter::convertToInt(const std::string &str){
-	double d = static_cast<double>(atof(str.c_str()));
-
-	if (d > std::numeric_limits<int>::max() || d < std::numeric_limits<int>::max()
-			|| std::isnan(d) || std::isinf(d))
-		std::cout << "impossible" << std::endl;
-	else
-		std::cout << static_cast<int>(d) << std::endl;
-	return 0;
-}
-
-void *ScalarConverter::convertToFloat(const std::string &str){
-	double d = static_cast<double>(atof(str.c_str()));
-	
-	if (d > std::numeric_limits<float>::max() || d < std::numeric_limits<float>::min())
-		std::cout << "IMPOSSIBLE" << std::endl;
-	else
-		std::cout << static_cast<float>(d) << "f" << std::endl;
-	return 0;
-}
-
-void *ScalarConverter::convertToDouble(const std::string &str){
-	double d = static_cast<double>(atof(str.c_str()));
-
-	std::cout << d << std::endl;
-	return 0;
-} */
-
-
-
