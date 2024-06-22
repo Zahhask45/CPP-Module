@@ -53,7 +53,7 @@ int ScalarConverter::detect(const std::string &str){
 		return DOUBLE;
 	if (isdot == 1 && ischar == 1 && str[l - 1] == 'f' && ver <= MAXFLOAT)
 		return FLOAT;
-	if (ver >= INT_MAX || ver <= INT_MIN)
+	if ((ver >= INT_MAX || ver <= INT_MIN) /* && !std::isinf(static_cast<double>(atof(str.c_str()))) */)
 		return DOUBLE;
 	
 	
@@ -71,12 +71,13 @@ int ScalarConverter::detect(const std::string &str){
 void *ScalarConverter::convert(const std::string &str){
 	int type;
 	type = detect(str);
+	std::cout << type << std::endl;
 	switch (type)
 	{
 	case ISINF:
 		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: inff" << std::endl;
+		std::cout << "float: " << str << std::endl;
 		std::cout << "double: inf" << std::endl;
 		break;
 	case ISNAN:
