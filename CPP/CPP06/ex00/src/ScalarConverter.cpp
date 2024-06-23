@@ -51,19 +51,19 @@ int ScalarConverter::detect(const std::string &str){
 		return INT;
 	if (isdot == 1 && ischar == 0)
 		return DOUBLE;
-	if (isdot == 1 && ischar == 1 && str[l - 1] == 'f' && ver <= MAXFLOAT)
+	if (isdot == 1 && ischar == 1 && str[l - 1] == 'f' && ver <= FLT_MAX)
 		return FLOAT;
-	if ((ver >= INT_MAX || ver <= INT_MIN) /* && !std::isinf(static_cast<double>(atof(str.c_str()))) */)
+	if (isdot == 1 && ischar == 0)
 		return DOUBLE;
-	
 	
 	//* Detect if is nan or inf
 	if (isint == 0 && isdouble == 0 && isfloat == 0){
-		if (std::isnan(static_cast<double>(atof(str.c_str()))))
+		if (std::isnan(static_cast<double>(atof(str.c_str()))) && !str.compare("nan"))
 			return ISNAN;
-		if (std::isinf(static_cast<double>(atof(str.c_str()))))
+		if (std::isinf(static_cast<double>(atof(str.c_str()))) && (str.length() >= 3 && str.length() <= 5))
 			return ISINF;
 	}
+
 	return 0;
 }
 
@@ -75,10 +75,18 @@ void *ScalarConverter::convert(const std::string &str){
 	switch (type)
 	{
 	case ISINF:
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: " << str << std::endl;
-		std::cout << "double: inf" << std::endl;
+		if (str[0] == '+'){
+			std::cout << "char: impossible" << std::endl;
+			std::cout << "int: impossible" << std::endl;
+			std::cout << "float: +" << static_cast<float>(atof(str.c_str())) << "f" << std::endl;
+			std::cout << "double: +" << static_cast<double>(atof(str.c_str())) << std::endl;
+		}
+		else{
+			std::cout << "char: impossible" << std::endl;
+			std::cout << "int: impossible" << std::endl;
+			std::cout << "float: " << static_cast<float>(atof(str.c_str())) << "f" << std::endl;
+			std::cout << "double: " << static_cast<double>(atof(str.c_str())) << std::endl;
+		}
 		break;
 	case ISNAN:
 		std::cout << "char: impossible" << std::endl;
@@ -166,12 +174,15 @@ void *ScalarConverter::literalFloat(const std::string &str){
 		std::cout << "char: Non displayable" << std::endl;
 
 	int i = static_cast<int>(f);
-	std::cout << "int: " << i << std::endl;
+	if (f >= (float)INT_MAX || f <= (float)INT_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << i << std::endl;
 
-	std::cout << "float: " << std::fixed << std::setprecision(precision) << f << "f" << std::endl;
+	std::cout << "float: " << /* std::fixed << std::setprecision(precision) << */ f << "f" << std::endl;
 
 	double d = static_cast<double>(f);
-	std::cout << "double: " << std::fixed << std::setprecision(precision) << d << std::endl;
+	std::cout << "double: " << /* std::fixed << std::setprecision(precision) << */ d << std::endl;
 
 	return 0;
 }
@@ -207,11 +218,11 @@ void *ScalarConverter::literalDouble(const std::string &str){
 	if (d > std::numeric_limits<float>::max() || d < std::numeric_limits<float>::min())
 		std::cout << "float: impossible" << std::endl;
 	else if (precision > 0)
-		std::cout << "float: " << std::fixed << std::setprecision(precision) << f << "f" << std::endl;
+		std::cout << "float: " << /* std::fixed << std::setprecision(precision) << */ f << "f" << std::endl;
 	else
-		std::cout << "float: " << std::fixed << std::setprecision(precision) << f << ".0f" << std::endl;
+		std::cout << "float: " << /* std::fixed << std::setprecision(precision) << */ f << ".0f" << std::endl;
 
-	std::cout << "double: " << std::fixed << std::setprecision(precision) << d << std::endl;
+	std::cout << "double: " << /* std::fixed << std::setprecision(precision) << */ d << std::endl;
 
 	return 0;
 }

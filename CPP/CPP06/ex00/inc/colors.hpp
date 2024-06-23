@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <iomanip> // setprecision()
-#include <limits.h>
+#include <climits>
+#include <cfloat>
 
 #endif
