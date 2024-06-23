@@ -26,7 +26,7 @@ int ScalarConverter::detect(const std::string &str){
 		if (isdigit(static_cast<unsigned char>(str[0])))
 			return INT;
 	}
-	//! Verify MAX_INT and MIN_INT
+
 	//* Parse the string received
 	for (size_t i = 0; i < l; i++){
 		if ((str[i] == '-' || str[i] == '+')){
@@ -155,7 +155,7 @@ void *ScalarConverter::literalInt(const std::string &str){
 void *ScalarConverter::literalFloat(const std::string &str){
 	float f = static_cast<float>(atof(str.c_str()));
 
-	int precision = 0;
+	/* int precision = 0;
 	int dot = 0;
 	for (size_t i = 0; i < str.length(); i++)
 	{
@@ -164,7 +164,7 @@ void *ScalarConverter::literalFloat(const std::string &str){
 		if (str[i] == '.')
 			dot = 1;
 	}
-	precision--; //* Remove the 'f'
+	precision--; // Remove the 'f' */
 	
 	if (f > 32 && f < 127){
 		char c = static_cast<char>(f);
@@ -189,17 +189,16 @@ void *ScalarConverter::literalFloat(const std::string &str){
 
 void *ScalarConverter::literalDouble(const std::string &str){
 	double d = static_cast<double>(atof(str.c_str()));
-	int precision = 0;
+
+	/* int precision = 0;
 	int dot = 0;
-
-
 	for (size_t i = 0; i < str.length(); i++)
 	{
 		if (dot == 1)
 			precision++;
 		if (str[i] == '.')
 			dot = 1;
-	}
+	} */
 
 	if (d > 32 && d < 127){
 		char c = static_cast<char>(d);
@@ -217,10 +216,8 @@ void *ScalarConverter::literalDouble(const std::string &str){
 	float f = static_cast<float>(d);
 	if (d > std::numeric_limits<float>::max() || d < std::numeric_limits<float>::min())
 		std::cout << "float: impossible" << std::endl;
-	else if (precision > 0)
+	else 
 		std::cout << "float: " << /* std::fixed << std::setprecision(precision) << */ f << "f" << std::endl;
-	else
-		std::cout << "float: " << /* std::fixed << std::setprecision(precision) << */ f << ".0f" << std::endl;
 
 	std::cout << "double: " << /* std::fixed << std::setprecision(precision) << */ d << std::endl;
 
