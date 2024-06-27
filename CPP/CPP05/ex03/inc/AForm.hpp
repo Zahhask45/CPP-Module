@@ -19,7 +19,7 @@ public:
 	virtual ~AForm();
 
 	std::string get_name() const;
-	bool get_sign();
+	bool get_sign() const;
 	int get_grade_sign() const;
 	int get_grade_exec() const;
 

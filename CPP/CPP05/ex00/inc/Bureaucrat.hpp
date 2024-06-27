@@ -23,8 +23,8 @@ public:
     	virtual const char *what() const throw();
     };
 
-	std::string getname() const;
-	int getgrade() const;
+	std::string getName() const;
+	int getGrade() const;
 
 	void increment();
 	void decrement();
