@@ -49,6 +49,7 @@
 		"sstream": "cpp",
 		"fstream": "cpp",
 		"array.hpp": "cpp",
-		"array.tpp": "cpp"
+		"array.tpp": "cpp",
+		"easyfind.tpp": "cpp"
 	}
 }
