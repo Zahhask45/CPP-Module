@@ -50,6 +50,7 @@
 		"fstream": "cpp",
 		"array.hpp": "cpp",
 		"array.tpp": "cpp",
-		"easyfind.tpp": "cpp"
+		"easyfind.tpp": "cpp",
+		"MutantStack.tpp": "cpp"
 	}
 }
