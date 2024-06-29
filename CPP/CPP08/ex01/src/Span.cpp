@@ -1,7 +1,10 @@
 #include "Span.hpp"
 
 Span::Span(){}
-Span::Span(unsigned int N){this->vec.reserve(N);}
+Span::Span(unsigned int N){
+	this->vec.reserve(N);
+	this->vec_size = N;
+}
 Span::Span(const Span &src){
 	*this = src;
 }
@@ -11,6 +14,7 @@ Span::~Span(){}
 Span &Span::operator=(const Span &rhs){
 	if (this != &rhs) {
         this->vec = rhs.vec;
+		this->vec_size = rhs.vec_size;
     }
 
     return *this;
@@ -19,6 +23,16 @@ Span &Span::operator=(const Span &rhs){
 void Span::addNumber(const int value){
 	vec.push_back(value);
 }
+
+//! MISSING STUFF
+void Span::addRangeIter(std::vector<int>::iterator first, std::vector<int>::iterator last){
+	if (vec.capacity() - vec.size() < static_cast<size_t>(std::distance(first, last)))
+		throw Span::SpanFullException();
+
+	this->vec.insert(vec.end(), first, last);
+}
+
+
 
 int Span::shortestSpan(){
 	if (this->vec.size() < 2)
@@ -31,11 +45,13 @@ int Span::shortestSpan(){
 
     int shortest = abs(*(copy.begin() + 1) - *copy.begin());
 
-    for (it = copy.begin(); it != copy.end() - 1; ++it) {
-        if (abs(*(it + 1) - *it) < shortest) {
-            shortest = abs(*(it + 1) - *it);
-        }
-    }
+	it = copy.begin();
+	while (it != copy.end() - 1 && shortest != 0){
+		if (abs(*(it + 1) - *it) < shortest){
+			shortest = abs(*(it + 1) - *it);
+		}
+		it++;
+	}
     return shortest;
 }
 
@@ -44,10 +60,10 @@ int Span::longestSpan(){
 		throw Span::NotEnoughItemsException();
 	}
 
-	int min = *std::min_element(vec.begin(), vec.end());
-	int max = *std::max_element(vec.begin(), vec.end());
+	int min = *min_element(vec.begin(), vec.end());
+	int max = *max_element(vec.begin(), vec.end());
 
-	return std::abs(max - min);
+	return abs(max - min);
 }
 
 
@@ -59,4 +75,12 @@ const char *Span::NotEnoughItemsException::what() const throw() {
     return ("Not enough items in the Span");
 }
 
+const std::vector<int> *Span::getVec()const {
+	return &vec;
+}
 
+std::ostream &operator<<(std::ostream &os, const Span& sp){
+	 for ( std::vector<int>::const_iterator it = sp.getVec()->begin(); it != sp.getVec()->end(); ++it )
+        os << *it << " ||  ";
+    return os;
+}
