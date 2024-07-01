@@ -24,7 +24,5 @@ public:
 	bool checkDate(const std::string &s);
 };
 
-bool Leap(const int &y);
-
 
 #endif

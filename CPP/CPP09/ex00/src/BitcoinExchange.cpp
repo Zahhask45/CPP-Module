@@ -97,6 +97,9 @@ void BitcoinExchange::parseFile(const std::string arg){
 	file.close();
 }
 
+bool Leap(const int &y){
+	return (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)); 
+}
 
 //* DATE FORMAT YYYY-MM-DD
 bool BitcoinExchange::checkDate(const std::string& s){
@@ -122,9 +125,6 @@ bool BitcoinExchange::checkDate(const std::string& s){
     return false;
 }
 
-bool Leap(const int &y){
-	return (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)); 
-}
 
 
 
