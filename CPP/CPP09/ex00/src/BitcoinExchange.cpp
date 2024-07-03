@@ -12,11 +12,10 @@ bool isDigits(const std::string& str) {
     return true;
 }
 
-//! NEED SOME MORE ERROR HANDLING
 void BitcoinExchange::readDB(){
 	
 	//* ifstream only reads the file
-	std::ifstream file("data.csv"); //! CAREFULL THIS NAME OR NOT IDK
+	std::ifstream file("data.csv");
 	if (!file){
 		std::cout << "Error opening file (missing)" << std::endl;
 		throw std::exception();
@@ -36,18 +35,10 @@ void BitcoinExchange::readDB(){
 			ss >> fvalue;
 			this->db.insert(std::pair<std::string, float>(date, fvalue));
 		}
-	}/* 
-	std::map<std::string, float>::iterator it = db.begin();
-
-	while (it != db.end()) {
-        std::cout << "Key: " << it->first << ", Value: " << it->second << std::endl;
-        ++it;
-    }
- */
+	}
 	file.close();
 }
 
-//! NEED TO HANDLE EMPTY VALUE
 void BitcoinExchange::parseFile(const std::string arg){
 
 	std::ifstream file(arg.c_str());
@@ -78,12 +69,19 @@ void BitcoinExchange::parseFile(const std::string arg){
                 continue;
 			}
 
+			//* MISSING VALUE
 			if (value == ""){
 				std::cout << "Error: missing value." << std::endl;
 				continue;
 			}
-			//std::cout << value << std::endl;
 
+			//* MISSING DATE
+			if (date == ""){
+				std::cout << "Error: missing date." << std::endl;
+				continue;
+			}
+
+			//* NOT A NUMBER
 			if (!isDigits(value)){
 				std::cout << "Error: not a number." << std::endl;
 				continue;
@@ -116,7 +114,7 @@ void BitcoinExchange::parseFile(const std::string arg){
         		low--;
 
 
-						
+			//* OUTPUT		
 			std::cout << date << " => " << fvalue << " = " << low->second * fvalue << std::endl;
 		}
 	}
