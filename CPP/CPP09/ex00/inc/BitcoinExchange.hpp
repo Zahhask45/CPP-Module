@@ -13,6 +13,9 @@
 #include <ctime>
 #include <string>
 
+
+
+//! CANONICAL ORTHODOX FORM MISSING
 class BitcoinExchange
 {
 private:
