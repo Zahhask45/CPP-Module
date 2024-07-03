@@ -3,6 +3,14 @@
 BitcoinExchange::BitcoinExchange(){this->readDB();}
 BitcoinExchange::~BitcoinExchange(){}
 
+bool isDigits(const std::string& str) {
+    for (size_t i = 0; i < str.size(); ++i) {
+        if (!isdigit(str[i]) && str[i] != '.' && str[i] != '-') {
+            return false;
+        }
+    }
+    return true;
+}
 
 //! NEED SOME MORE ERROR HANDLING
 void BitcoinExchange::readDB(){
@@ -39,7 +47,7 @@ void BitcoinExchange::readDB(){
 	file.close();
 }
 
-
+//! NEED TO HANDLE EMPTY VALUE
 void BitcoinExchange::parseFile(const std::string arg){
 
 	std::ifstream file(arg.c_str());
@@ -52,16 +60,34 @@ void BitcoinExchange::parseFile(const std::string arg){
         std::cerr << "Error: Could not read the header line!" << std::endl;
     }
 	while (std::getline(file, line)){
+
 		std::stringstream ss(line);
 		std::string date, value;
 		float fvalue;
 
-		//* REMOVE THE SPACES BEFORE AND AFTER THE '|'
-		line.erase(remove(line.begin(), line.end(), ' '), line.end());
-
-
 		//* READ AND PARSE THE LINE FOR NEGATIVES, WRONG DATES AND NUMBER TO HIGH(INT MAX>)
 		if (std::getline(ss, date, '|') && std::getline(ss, value)) {
+
+            //* CHECK IF FORMAT IS RIGHT AND THEN DELETE THE ' '
+            if (date.length() && date[date.length() - 1] == ' ' && value.length() && value[0] == ' ') {
+
+                date.erase(date.length() - 1, 1);
+                value.erase(0, 1);
+            } else {
+                std::cerr << "Error: wrong format =>" << line << std::endl;
+                continue;
+			}
+
+			if (value == ""){
+				std::cout << "Error: missing value." << std::endl;
+				continue;
+			}
+			//std::cout << value << std::endl;
+
+			if (!isDigits(value)){
+				std::cout << "Error: not a number." << std::endl;
+				continue;
+			}
 
 			std::stringstream ss(value);
 			ss >> fvalue;
@@ -96,6 +122,7 @@ void BitcoinExchange::parseFile(const std::string arg){
 	}
 	file.close();
 }
+
 
 bool Leap(const int &y){
 	return (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)); 

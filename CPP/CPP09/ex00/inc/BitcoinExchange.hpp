@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <limits>
 #include <ctime>
+#include <string>
 
 class BitcoinExchange
 {
