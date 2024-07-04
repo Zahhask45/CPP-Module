@@ -8,6 +8,9 @@ int main(int argc, char **argv){
 
 	PmergeMe FJ; //* FJ from Ford-Johnson 
 
+	FJ.parse(argv + 1);
+
+	std::cout << FJ << std::endl;
 	
 }
 

@@ -10,6 +10,7 @@
 #include <vector>
 #include <deque>
 #include <ctime>
+#include <cmath>
 
 class PmergeMe
 {
@@ -19,7 +20,14 @@ private:
 public:
 	PmergeMe();
 	~PmergeMe();
+	void parse(char **arg);
+	void forVector();
+	void forDeque();
+
+	const std::vector<int> *getVec() const;
 };
+
+std::ostream &operator<<(std::ostream &os, const PmergeMe& sp);
 
 
 

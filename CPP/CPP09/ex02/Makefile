@@ -27,7 +27,7 @@ OBJ_DIR		=	./obj/
 INCLUDE		=	-I ./inc/
 
 SRCS		=	main.cpp \
-				
+				PmergeMe.cpp
 
 SRC			=	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS		=	$(SRCS:.cpp=.o)
