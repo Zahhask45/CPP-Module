@@ -21,66 +21,131 @@ void PmergeMe::parse(char **arg){
 	//* START TIMER HERE
 	forVector();
 	//* START TIMER HERE
+	forDeque();
 	
+}
+
+void debug(std::string text, std::vector<int> vec){
+	std::cout << text << std::endl;
+	for ( std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it )
+        	std::cout << *it << " || ";
+	std::cout << std::endl << std::endl;
 }
 
 
 void PmergeMe::forVector(){
-	//int haslonely = vec.size() % 2;
-
+	int count = 0;
+	//* Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
 	for (size_t i = 0; i < vec.size() - 1; i += 2){
-		if (vec[i] > vec[i + 1])
+		if (vec[i] > vec[i + 1]){
 			std::swap(vec[i], vec[i + 1]);
+			count++;
+		}
 	}
 	
-	std::cout << "ORIGINAL BEFORE" << std::endl;
-	for ( std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it )
-        		std::cout << *it << " || ";
-	std::cout << std::endl << std::endl;
-	int size = vec.size();
-	 for (int k = 2; k < size; k *= 2) {
-        for (int i = 0; i < size; i += 2 * k) {
-            int leftsubarray = i; // Start index of the left subarray
-            int rightsubarry = std::min(i + k, size); // Start index of the right subarray
-            int endleftsubarray = rightsubarry; // End index of the left subarray (start of right subarray)
-            int endrightsubarry = std::min(i + 2 * k, size); // End index of the right subarray
+	debug("ORIGINAL AFTER STEP 1", vec);
+
+
+	//* Sort the pairs by their larger number
+	for (size_t i = 3; i <= vec.size() - 1; i += 2){
+		for (size_t d = 1; i < vec.size(); d += 2){
+			if (d == i)
+				break;
+			if (vec[i] < vec[d]){
+				count++;
+				std::swap(vec[i - 1], vec[d - 1]);
+				std::swap(vec[i], vec[d]);
+			}	
+		}
+	}
+
+	debug("ORIGINAL AFTER STEP 2", vec);
+
+
+	//* CREATING MAIN CHAIN AND PEND
+	std::vector<int> chain;
+	std::vector<int> pend;
+
+	chain.push_back(vec[0]);
+	for (size_t i = 1; i <= vec.size() - 1; i += 2){
+		chain.push_back(vec[i]);
+		if (i > 1)
+			pend.push_back(vec[i - 1]);
+	}
+	int haslonely = vec.size() % 2;
+	if (haslonely){
+		pend.push_back(vec[vec.size() - 1]);
+	}
+
+	//debug("MAIN CHAIN: ", chain);
+	//debug("PEND: ", pend);
 
 
 
-            std::vector<int> merged;// Temporary deque to hold merged results
 
-            // Merge the two subarrays
-            while (leftsubarray < endleftsubarray && rightsubarry < endrightsubarry) {
-				std::cout << vec[leftsubarray] << std::endl;
-				std::cout << vec[rightsubarry] << std::endl;
-                if (vec[leftsubarray] < vec[rightsubarry]) {
-                    merged.push_back(vec[leftsubarray++]);
-                } else {
-                    merged.push_back(vec[rightsubarry++]);
-                }
-            }
+	std::vector<int> chainOriginal = chain;
 
-            // Add any remaining elements from the left subarray
-            while (leftsubarray < endleftsubarray) {
-                merged.push_back(vec[leftsubarray++]);
-            }
+	//* ADD THE PEND TO THE MAIN CHAIN
+	int chainSize = chain.size();
+	int pendSize = pend.size();
 
-            // Add any remaining elements from the right subarray
-            while (rightsubarry < endrightsubarry) {
-                merged.push_back(vec[rightsubarry++]);
-            }
+	for (int b = 0; b < chainSize / 2 - 1; b += 2){
+		int b2 = b + 1;
 
-            // Copy the merged elements back into the original deque
-            std::copy(merged.begin(), merged.end(), vec.begin() + i);
-			std::cout << "MERGED: ";
-			for ( std::vector<int>::const_iterator it = merged.begin(); it != merged.end(); ++it )
-        		std::cout << *it << " || ";
-			std::cout << std::endl << "ORIGINAL: ";
-			for ( std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it )
-        		std::cout << *it << " || ";
-			std::cout << std::endl << "END OF LOOP" << std::endl;
-        }
-    }
+		//* FIND INDEX ON CHAIN
+		std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[b2 + 2]);
+		int index = it - chain.begin();
+
+
+		for (int a = 0; a < index; a++){
+			if (pend[b2] < chain[a]){
+				count++;
+				chain.insert(chain.begin() + a, pend[b2]);
+				break;
+			}
+			else if (a == index - 1 && pend[b2] > chain[a]){
+				count++;
+				chain.insert(chain.begin() + a + 1, pend[b2]);
+				break;
+			}
+		}
+		it = std::find(chain.begin(), chain.end(), chainOriginal[b + 2]);
+		index = it - chain.begin();
+		for (int a = 0; a < index; a++){
+			if (pend[b] < chain[a]){
+				count++;
+				chain.insert(chain.begin() + a, pend[b]);
+				break;
+			}
+			else if (a == index - 1 && pend[b] > chain[a]){
+				count++;
+				chain.insert(chain.begin() + a + 1, pend[b]);
+				break;
+			}
+		}
+	}
+
+	//debug("CHAIN FIRST HALF", vec);
+	
+
+
+	for (int b = pendSize; b > chainSize / 2 - 1; b--){
+		int b2 = b - 1;
+		for (size_t a = 0; a < chain.size(); a++){
+			if (pend[b2] < chain[a]){
+				count++;
+				chain.insert(chain.begin() + a, pend[b2]);
+				break;
+			}
+			else if (a == chain.size() && pend[b2] > chain[a]){
+				count++;
+				chain.insert(chain.begin() + a + 2, pend[b2]);
+			}
+		}
+	}
+
+	//debug("CHAIN SECOND HALF", vec);
+	//std::cout << "COUNT: " << count << std::endl;
 
 
 }
