@@ -19,7 +19,12 @@ void PmergeMe::parse(char **arg){
 	}
 
 	//* START TIMER HERE
+	clock_t fight = clock();
 	forVector();
+	clock_t finishHim = clock();
+	double time = static_cast<double>(finishHim - fight) / CLOCKS_PER_SEC * 1000000;
+	int size = vec.size();
+	std::cout << "Time to process a range of " << size << " elements with std::vector : " << time << " us" << std::endl;
 	//* START TIMER HERE
 	forDeque();
 	
