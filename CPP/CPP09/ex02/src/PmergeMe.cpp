@@ -21,7 +21,7 @@ void PmergeMe::parse(char **arg){
 	//* START TIMER HERE
 	forVector();
 	//* START TIMER HERE
-	forDeque();
+	//forDeque();
 	
 }
 
@@ -43,7 +43,7 @@ void PmergeMe::forVector(){
 		}
 	}
 	
-	debug("ORIGINAL AFTER STEP 1", vec);
+	//debug("ORIGINAL AFTER STEP 1", vec);
 
 
 	//* Sort the pairs by their larger number
@@ -59,7 +59,7 @@ void PmergeMe::forVector(){
 		}
 	}
 
-	debug("ORIGINAL AFTER STEP 2", vec);
+	//debug("ORIGINAL AFTER STEP 2", vec);
 
 
 	//* CREATING MAIN CHAIN AND PEND
@@ -147,6 +147,7 @@ void PmergeMe::forVector(){
 	//debug("CHAIN SECOND HALF", vec);
 	//std::cout << "COUNT: " << count << std::endl;
 
+	vec = chain;
 
 }
 
