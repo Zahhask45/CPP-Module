@@ -6,9 +6,7 @@ int main(int argc, char **argv){
 		return 1;
 	}
 
-	PmergeMe FJ; //* FJ from Ford-Johnson 
-
-	FJ.parse(argv + 1);
+	PmergeMe FJ(argv + 1); //* FJ from Ford-Johnson 
 	
 }
 

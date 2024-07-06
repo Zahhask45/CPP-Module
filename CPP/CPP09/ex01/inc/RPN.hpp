@@ -12,7 +12,7 @@
 class RPN
 {
 private:
-	std::stack<float> rpn; //* PROBABLY SHOULD NOT HAVE THIS HERE OR DO
+	std::stack<float> rpn;
 public:
 	RPN();
 	RPN(const RPN &);

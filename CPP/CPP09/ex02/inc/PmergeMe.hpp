@@ -19,10 +19,14 @@ private:
 	std::deque<int> deq;
 public:
 	PmergeMe();
+	PmergeMe(const PmergeMe&);
+	PmergeMe(char **arg);
 	~PmergeMe();
+	PmergeMe &operator=(const PmergeMe &rhs);
 	void parse(char **arg);
 	void forVector();
 	void forDeque();
+	void isSorted();
 
 	const std::vector<int> *getVec() const;
 };

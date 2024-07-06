@@ -1,10 +1,51 @@
 #include "PmergeMe.hpp"
 
 PmergeMe::PmergeMe(){}
+PmergeMe::PmergeMe(const PmergeMe &src){*this = src;}
+PmergeMe::PmergeMe(char **arg){parse(arg);}
 PmergeMe::~PmergeMe(){}
 
+PmergeMe &PmergeMe::operator=(const PmergeMe &rhs){
+	if (this != &rhs) {
+        this->vec = rhs.vec;
+        this->deq = rhs.deq;
+    }
+    return *this;
+}
 
-//! NEED A BETTER WAY TO HANDLE DECIMALS
+
+
+
+void debug(std::string text, std::vector<int> vec){
+	std::cout << text << std::endl;
+	for ( std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it )
+        	std::cout << *it << " || ";
+	std::cout << std::endl << std::endl;
+}
+
+void PmergeMe::isSorted(){
+	for (size_t i = 0; i < vec.size() - 1; i++){
+		if (vec[i] > vec[i + 1]){
+			std::cout << "ERROR ERROR ERROR ERROR ERROR ERROR ERROR ON VECTOR" << std::endl;
+			break;
+		}
+	}
+	for (size_t i = 0; i < deq.size() - 1; i++){
+		if (deq[i] > deq[i + 1]){
+			std::cout << "ERROR ERROR ERROR ERROR ERROR ERROR ERROR ON DEQUE" << std::endl;
+			break;
+		}
+	}
+	
+}
+
+void printvec(std::string text, std::vector<int> vec){
+	std::cout << text;
+	for ( std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it )
+        	std::cout << *it << " ";
+	std::cout << std::endl;
+}
+
 void PmergeMe::parse(char **arg){
 	for (size_t i = 0; arg[i]; i++){
 		for (size_t d = 0; arg[i][d]; d++){
@@ -18,24 +59,38 @@ void PmergeMe::parse(char **arg){
 		deq.push_back(static_cast<int>(atof(str.c_str())));
 	}
 
+	//* CHECK IF IT HAS DUPLICATES (FOR MY CODE IS ERROR, IF YOU WANT TO PERMIT JUST CHANGE DOWN IN THE FUNCTION FOR THE VECTOR AND DEQUE)
+	for (size_t i = 0; i < vec.size() - 1; i++){
+		for (size_t d = i + 1; d < vec.size(); d++){
+			if(vec[i] == vec[d]){
+				std::cout << "No Duplicates, please(per favore)" << std::endl;
+				return;
+			}
+		}
+	}
+	
+
 	//* START TIMER HERE
+	printvec("Before: ", vec);
 	clock_t fight = clock();
 	forVector();
 	clock_t finishHim = clock();
 	double time = static_cast<double>(finishHim - fight) / CLOCKS_PER_SEC * 1000000;
 	int size = vec.size();
+	printvec("After:  ", vec);
 	std::cout << "Time to process a range of " << size << " elements with std::vector : " << time << " us" << std::endl;
+
+
 	//* START TIMER HERE
+	fight = clock();
 	forDeque();
-	
+	finishHim = clock();
+	time = static_cast<double>(finishHim - fight) / CLOCKS_PER_SEC * 1000000;
+	size = deq.size();
+	std::cout << "Time to process a range of " << size << " elements with std::deque : " << time << " us" << std::endl;
+
 }
 
-void debug(std::string text, std::vector<int> vec){
-	std::cout << text << std::endl;
-	for ( std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it )
-        	std::cout << *it << " || ";
-	std::cout << std::endl << std::endl;
-}
 
 
 void PmergeMe::forVector(){
@@ -142,14 +197,15 @@ void PmergeMe::forVector(){
 				chain.insert(chain.begin() + a, pend[b2]);
 				break;
 			}
-			else if (a == chain.size() && pend[b2] > chain[a]){
+			else if (a == chain.size() - 1 && pend[b2] >= chain[a]){
 				count++;
-				chain.insert(chain.begin() + a + 2, pend[b2]);
+				chain.insert(chain.begin() + a + 1, pend[b2]);
+				break;
 			}
+
 		}
 	}
 
-	//debug("CHAIN SECOND HALF", vec);
 	//std::cout << "COUNT: " << count << std::endl;
 
 	vec = chain;
@@ -160,45 +216,45 @@ void PmergeMe::forVector(){
 void PmergeMe::forDeque(){
 	int count = 0;
 	//* Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
-	for (size_t i = 0; i < vec.size() - 1; i += 2){
-		if (vec[i] > vec[i + 1]){
-			std::swap(vec[i], vec[i + 1]);
+	for (size_t i = 0; i < deq.size() - 1; i += 2){
+		if (deq[i] > deq[i + 1]){
+			std::swap(deq[i], deq[i + 1]);
 			count++;
 		}
 	}
 	
-	//debug("ORIGINAL AFTER STEP 1", vec);
+	//debug("ORIGINAL AFTER STEP 1", deq);
 
 
 	//* Sort the pairs by their larger number
-	for (size_t i = 3; i <= vec.size() - 1; i += 2){
-		for (size_t d = 1; i < vec.size(); d += 2){
+	for (size_t i = 3; i <= deq.size() - 1; i += 2){
+		for (size_t d = 1; i < deq.size(); d += 2){
 			if (d == i)
 				break;
-			if (vec[i] < vec[d]){
+			if (deq[i] < deq[d]){
 				count++;
-				std::swap(vec[i - 1], vec[d - 1]);
-				std::swap(vec[i], vec[d]);
+				std::swap(deq[i - 1], deq[d - 1]);
+				std::swap(deq[i], deq[d]);
 			}	
 		}
 	}
 
-	//debug("ORIGINAL AFTER STEP 2", vec);
+	//debug("ORIGINAL AFTER STEP 2", deq);
 
 
 	//* CREATING MAIN CHAIN AND PEND
 	std::deque<int> chain;
 	std::deque<int> pend;
 
-	chain.push_back(vec[0]);
-	for (size_t i = 1; i <= vec.size() - 1; i += 2){
-		chain.push_back(vec[i]);
+	chain.push_back(deq[0]);
+	for (size_t i = 1; i <= deq.size() - 1; i += 2){
+		chain.push_back(deq[i]);
 		if (i > 1)
-			pend.push_back(vec[i - 1]);
+			pend.push_back(deq[i - 1]);
 	}
-	int haslonely = vec.size() % 2;
+	int haslonely = deq.size() % 2;
 	if (haslonely){
-		pend.push_back(vec[vec.size() - 1]);
+		pend.push_back(deq[deq.size() - 1]);
 	}
 
 	//debug("MAIN CHAIN: ", chain);
@@ -219,7 +275,6 @@ void PmergeMe::forDeque(){
 		//* FIND INDEX ON CHAIN
 		std::deque<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[b2 + 2]);
 		int index = it - chain.begin();
-
 
 		for (int a = 0; a < index; a++){
 			if (pend[b2] < chain[a]){
@@ -249,7 +304,7 @@ void PmergeMe::forDeque(){
 		}
 	}
 
-	//debug("CHAIN FIRST HALF", vec);
+	//debug("CHAIN FIRST HALF", deq);
 	
 
 
@@ -268,24 +323,12 @@ void PmergeMe::forDeque(){
 		}
 	}
 
-	//debug("CHAIN SECOND HALF", vec);
+	//debug("CHAIN SECOND HALF", deq);
 	//std::cout << "COUNT: " << count << std::endl;
 
 	deq = chain;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 const std::vector<int> *PmergeMe::getVec()const {
 	return &vec;
