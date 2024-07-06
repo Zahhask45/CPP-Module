@@ -1,8 +1,8 @@
 #include "PmergeMe.hpp"
 
 int main(int argc, char **argv){
-	if (argc < 2){
-		std::cout << "Needs arguments" << std::endl;
+	if (argc < 3){
+		std::cout << "Needs more arguments" << std::endl;
 		return 1;
 	}
 

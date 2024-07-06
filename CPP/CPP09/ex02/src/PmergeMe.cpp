@@ -22,6 +22,12 @@ void debug(std::string text, std::vector<int> vec){
         	std::cout << *it << " || ";
 	std::cout << std::endl << std::endl;
 }
+void debug(std::string text, std::deque<int> deq){
+	std::cout << text << std::endl;
+	for ( std::deque<int>::const_iterator it = deq.begin(); it != deq.end(); ++it )
+        	std::cout << *it << " || ";
+	std::cout << std::endl << std::endl;
+}
 
 void PmergeMe::isSorted(){
 	for (size_t i = 0; i < vec.size() - 1; i++){
@@ -88,6 +94,8 @@ void PmergeMe::parse(char **arg){
 	time = static_cast<double>(finishHim - fight) / CLOCKS_PER_SEC * 1000000;
 	size = deq.size();
 	std::cout << "Time to process a range of " << size << " elements with std::deque : " << time << " us" << std::endl;
+
+	isSorted();
 
 }
 
@@ -158,6 +166,8 @@ void PmergeMe::forVector(){
 
 
 		for (int a = 0; a < index; a++){
+			if (b2 + 1 >= chainSize / 2)
+				break;
 			if (pend[b2] < chain[a]){
 				count++;
 				chain.insert(chain.begin() + a, pend[b2]);
@@ -185,12 +195,14 @@ void PmergeMe::forVector(){
 		}
 	}
 
-	//debug("CHAIN FIRST HALF", vec);
+	//debug("CHAIN FIRST HALF", chain);
 	
 
 
 	for (int b = pendSize; b > chainSize / 2 - 1; b--){
 		int b2 = b - 1;
+		if (b2 + 2 <= chainSize / 2)
+			break;
 		for (size_t a = 0; a < chain.size(); a++){
 			if (pend[b2] < chain[a]){
 				count++;
@@ -206,6 +218,7 @@ void PmergeMe::forVector(){
 		}
 	}
 
+	//debug("CHAIN SECOND HALF", chain);
 	//std::cout << "COUNT: " << count << std::endl;
 
 	vec = chain;
@@ -276,7 +289,10 @@ void PmergeMe::forDeque(){
 		std::deque<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[b2 + 2]);
 		int index = it - chain.begin();
 
+
 		for (int a = 0; a < index; a++){
+			if (b2 + 1 >= chainSize / 2)
+				break;
 			if (pend[b2] < chain[a]){
 				count++;
 				chain.insert(chain.begin() + a, pend[b2]);
@@ -304,26 +320,30 @@ void PmergeMe::forDeque(){
 		}
 	}
 
-	//debug("CHAIN FIRST HALF", deq);
+	//debug("CHAIN FIRST HALF", chain);
 	
 
 
 	for (int b = pendSize; b > chainSize / 2 - 1; b--){
 		int b2 = b - 1;
+		if (b2 + 2 <= chainSize / 2)
+			break;
 		for (size_t a = 0; a < chain.size(); a++){
 			if (pend[b2] < chain[a]){
 				count++;
 				chain.insert(chain.begin() + a, pend[b2]);
 				break;
 			}
-			else if (a == chain.size() && pend[b2] > chain[a]){
+			else if (a == chain.size() - 1 && pend[b2] >= chain[a]){
 				count++;
-				chain.insert(chain.begin() + a + 2, pend[b2]);
+				chain.insert(chain.begin() + a + 1, pend[b2]);
+				break;
 			}
+
 		}
 	}
 
-	//debug("CHAIN SECOND HALF", deq);
+	//debug("CHAIN SECOND HALF", chain);
 	//std::cout << "COUNT: " << count << std::endl;
 
 	deq = chain;
