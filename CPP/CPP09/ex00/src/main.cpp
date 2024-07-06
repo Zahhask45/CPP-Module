@@ -1,9 +1,5 @@
 #include "BitcoinExchange.hpp"
 
-
-
-
-//! ARGV NEEDS TO BE A FILE
 //* If file is txt delimeter will be '|'
 int main(int argc, char **argv){
 

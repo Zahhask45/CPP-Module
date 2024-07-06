@@ -1,7 +1,16 @@
 #include "BitcoinExchange.hpp"
 
 BitcoinExchange::BitcoinExchange(){this->readDB();}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &src){*this = src;}
 BitcoinExchange::~BitcoinExchange(){}
+
+
+BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &rhs){
+	if (this != &rhs) {
+        this->db = rhs.db;
+    }
+    return *this;
+}
 
 bool isDigits(const std::string& str) {
     for (size_t i = 0; i < str.size(); ++i) {
@@ -50,6 +59,10 @@ void BitcoinExchange::parseFile(const std::string arg){
 	if (!std::getline(file, line)) {
         std::cerr << "Error: Could not read the header line!" << std::endl;
     }
+	if (line != "date | value"){
+		std::cerr << "Invalid header!" << std::endl;
+		return ;
+	}
 	while (std::getline(file, line)){
 
 		std::stringstream ss(line);

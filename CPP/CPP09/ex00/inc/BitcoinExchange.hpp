@@ -14,15 +14,16 @@
 #include <string>
 
 
-
-//! CANONICAL ORTHODOX FORM MISSING
 class BitcoinExchange
 {
 private:
 	std::map<std::string, float> db;
 public:
 	BitcoinExchange();
+	BitcoinExchange(const BitcoinExchange&);
 	~BitcoinExchange();
+	BitcoinExchange &operator=(const BitcoinExchange &rhs);
+
 	void readDB();
 	void parseFile(const std::string file);
 	bool checkDate(const std::string &s);
