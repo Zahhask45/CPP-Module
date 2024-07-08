@@ -33,6 +33,7 @@ void BitcoinExchange::readDB(){
 	std::string line;
 	if (!std::getline(file, line)) {
         std::cerr << "Error: Could not read the header line!" << std::endl;
+		throw std::exception();
     }
 	while (std::getline(file, line)){
 		std::stringstream ss(line);
@@ -58,10 +59,12 @@ void BitcoinExchange::parseFile(const std::string arg){
 	std::string line;
 	if (!std::getline(file, line)) {
         std::cerr << "Error: Could not read the header line!" << std::endl;
+		throw std::exception();
+
     }
 	if (line != "date | value"){
 		std::cerr << "Invalid header!" << std::endl;
-		return ;
+		throw std::exception();
 	}
 	while (std::getline(file, line)){
 

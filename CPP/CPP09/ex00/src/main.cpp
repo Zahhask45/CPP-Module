@@ -9,10 +9,14 @@ int main(int argc, char **argv){
 		return 1;
 	}
 
-	BitcoinExchange btc;
-
-	btc.parseFile(argv[1]);
-
+	try{
+		BitcoinExchange btc;
+		btc.parseFile(argv[1]);
+	}
+	catch(const std::exception& e){
+	}
+	
+	return 0;
 }
 
 
