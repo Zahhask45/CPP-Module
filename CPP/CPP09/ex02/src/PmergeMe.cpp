@@ -100,10 +100,68 @@ void PmergeMe::parse(char **arg){
 }
 
 
+void BinaryVec(std::vector<int>&chain, int val, int size){
+	int low = 0;
+    int high = size;
+    int mid = (high + low) / 2;
+    int indexToInsert = -1;
 
+	while(low <= high)
+    {
+        if(mid < 0 || mid > size)
+            break;
+        if(val < chain[mid])
+        {
+            //check if previous index is valid and lesser than value
+            if(mid - 1 >= 0)
+            {
+                if(chain[mid - 1] < val)
+                {
+                    indexToInsert = mid;
+                    break;
+                }
+            }
+            high = mid - 1;
+        }
+        else if(val > chain[mid])
+        {
+            //check if next index is valid and greater than value
+            if(mid + 1 < size)
+            {
+                if(chain[mid + 1] > val)
+                {
+                    indexToInsert = mid + 1;
+                    break;
+                }
+            }
+            low = mid + 1;
+        }
+        mid = (high + low) / 2;
+    }
+    if(indexToInsert == -1)
+    {
+        if(mid <= 0)
+            indexToInsert = 0;
+        else if (mid >= size)
+            indexToInsert = size + 1;
+		std::cout << "LOW POSITION: " << low << std::endl;
+		std::cout << "HIGH POSITION: " << high << std::endl;
+		std::cout << "MIDDLE POSITION: " << mid << std::endl;
+		std::cout << "CHAIN SIZE : " << size + 1 << std::endl;
+		debug("CHAIN: " , chain);
+    }
+
+	std::cout << "INSERTING: " << val << " ONTO THE INDEX: " << indexToInsert << std::endl;
+    chain.insert(chain.begin() + indexToInsert, val);
+	std::cout << "INSERTED: " << val << std::endl;
+}
+
+//! ERROR WITH BINARY INSERTION
 void PmergeMe::forVector(){
+
+
 	int count = 0;
-	//* Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
+	// Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
 	for (size_t i = 0; i < vec.size() - 1; i += 2){
 		if (vec[i] > vec[i + 1]){
 			std::swap(vec[i], vec[i + 1]);
@@ -114,7 +172,7 @@ void PmergeMe::forVector(){
 	//debug("ORIGINAL AFTER STEP 1", vec);
 
 
-	//* Sort the pairs by their larger number
+	// Sort the pairs by their larger number
 	for (size_t i = 3; i <= vec.size() - 1; i += 2){
 		for (size_t d = 1; i < vec.size(); d += 2){
 			if (d == i)
@@ -130,7 +188,7 @@ void PmergeMe::forVector(){
 	//debug("ORIGINAL AFTER STEP 2", vec);
 
 
-	//* CREATING MAIN CHAIN AND PEND
+	// CREATING MAIN CHAIN AND PEND
 	std::vector<int> chain;
 	std::vector<int> pend;
 
@@ -148,19 +206,63 @@ void PmergeMe::forVector(){
 	//debug("MAIN CHAIN: ", chain);
 	//debug("PEND: ", pend);
 
-
-
+	//! DONT FORGET TO ADD 2(TWO) FOR THE ORIGINAL INDEX OF PEND
+	int end = 0;
+	int t = 1;
+	int t_before = 0;
+	int k = 2;
+	int k_before = k - 1;
 
 	std::vector<int> chainOriginal = chain;
 
-	//* ADD THE PEND TO THE MAIN CHAIN
+	debug("MAIN CHAIN: ", chain);
+	debug("PEND: ", pend);
+	while (true){
+
+		//std::cout << end << std::endl;
+		if (end == 1){
+			break;
+		}
+
+		t = (pow(2, k + 1) + pow(-1, k)) /3;
+		//std::cout << t << std::endl;
+		k_before = k - 1;
+		t_before = (pow(2, k_before + 1) + pow(-1, k_before)) / 3;
+		/* std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[t - 2]);
+		int index = it - chain.begin(); */
+
+		for (int i = t; i > t_before; i--){
+			//* Correct Sequence
+			if (i - 2 > static_cast<int>(pend.size()) - 1){
+				std::cout << "HELLO???" << std::endl;
+				end = 1;
+				continue;
+			}
+			//std::cout << chainOriginal.size() << std::endl;
+			std::cout << chainOriginal[i -1] << std::endl;
+			std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[i - 1]);
+			int index = it - chain.begin();
+			/* std::cout <<"INDEX: " << index - 1 << std::endl;
+			std::cout << chainOriginal[i - 1] << std::endl; */
+			BinaryVec(chain, pend[i - 2], index - 1);
+		}
+		debug("MAIN CHAIN: ", chain);
+		k++;
+		
+	}
+	vec = chain;
+
+/*
+	std::vector<int> chainOriginal = chain;
+
+	// ADD THE PEND TO THE MAIN CHAIN
 	int chainSize = chain.size();
 	int pendSize = pend.size();
 
 	for (int b = 0; b < chainSize / 2 - 1; b += 2){
 		int b2 = b + 1;
 
-		//* FIND INDEX ON CHAIN
+		// FIND INDEX ON CHAIN
 		std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[b2 + 2]);
 		int index = it - chain.begin();
 
@@ -221,7 +323,7 @@ void PmergeMe::forVector(){
 	//debug("CHAIN SECOND HALF", chain);
 	//std::cout << "COUNT: " << count << std::endl;
 
-	vec = chain;
+	vec = chain; */
 
 }
 

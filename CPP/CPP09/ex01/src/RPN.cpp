@@ -60,6 +60,10 @@ void RPN::read(const std::string &arg){
 }
 
 void RPN::calculate(const char &signal){
+	if (rpn.size() < 2){
+		std::cout << "Wrong RPN" << std::endl;
+		throw std::exception();
+	}
 	float twond = rpn.top(); //* SECOND NUMBER
 	rpn.pop();
 	float onest = rpn.top(); //* FIRST NUMBER
