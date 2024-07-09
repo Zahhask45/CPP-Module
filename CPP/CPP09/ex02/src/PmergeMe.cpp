@@ -102,12 +102,11 @@ void PmergeMe::parse(char **arg){
 
 void BinaryVec(std::vector<int>&chain, int val, int size){
 	int low = 0;
-    int high = size;
+    int high = size - 1;
     int mid = (high + low) / 2;
     int indexToInsert = -1;
 
-	while(low <= high)
-    {
+	while(low <= high){
         if(mid < 0 || mid > size)
             break;
         if(val < chain[mid])
@@ -136,32 +135,69 @@ void BinaryVec(std::vector<int>&chain, int val, int size){
             }
             low = mid + 1;
         }
-        mid = (high + low) / 2;
+		mid = (high + low) / 2;
     }
     if(indexToInsert == -1)
     {
         if(mid <= 0)
             indexToInsert = 0;
-        else if (mid >= size)
-            indexToInsert = size + 1;
-		std::cout << "LOW POSITION: " << low << std::endl;
-		std::cout << "HIGH POSITION: " << high << std::endl;
-		std::cout << "MIDDLE POSITION: " << mid << std::endl;
-		std::cout << "CHAIN SIZE : " << size + 1 << std::endl;
-		debug("CHAIN: " , chain);
+        else if (mid >= size - 1)
+            indexToInsert = size;
     }
-
-	std::cout << "INSERTING: " << val << " ONTO THE INDEX: " << indexToInsert << std::endl;
     chain.insert(chain.begin() + indexToInsert, val);
-	std::cout << "INSERTED: " << val << std::endl;
 }
 
-//! ERROR WITH BINARY INSERTION
+void BinaryDeq(std::deque<int>&chain, int val, int size){
+	int low = 0;
+    int high = size - 1;
+    int mid = (high + low) / 2;
+    int indexToInsert = -1;
+
+	while(low <= high){
+        if(mid < 0 || mid > size)
+            break;
+        if(val < chain[mid])
+        {
+            //check if previous index is valid and lesser than value
+            if(mid - 1 >= 0)
+            {
+                if(chain[mid - 1] < val)
+                {
+                    indexToInsert = mid;
+                    break;
+                }
+            }
+            high = mid - 1;
+        }
+        else if(val > chain[mid])
+        {
+            //check if next index is valid and greater than value
+            if(mid + 1 < size)
+            {
+                if(chain[mid + 1] > val)
+                {
+                    indexToInsert = mid + 1;
+                    break;
+                }
+            }
+            low = mid + 1;
+        }
+		mid = (high + low) / 2;
+    }
+    if(indexToInsert == -1)
+    {
+        if(mid <= 0)
+            indexToInsert = 0;
+        else if (mid >= size - 1)
+            indexToInsert = size;
+    }
+    chain.insert(chain.begin() + indexToInsert, val);
+}
+
 void PmergeMe::forVector(){
 
-
 	int count = 0;
-	// Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
+	//* Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
 	for (size_t i = 0; i < vec.size() - 1; i += 2){
 		if (vec[i] > vec[i + 1]){
 			std::swap(vec[i], vec[i + 1]);
@@ -172,7 +208,7 @@ void PmergeMe::forVector(){
 	//debug("ORIGINAL AFTER STEP 1", vec);
 
 
-	// Sort the pairs by their larger number
+	//* Sort the pairs by their larger number
 	for (size_t i = 3; i <= vec.size() - 1; i += 2){
 		for (size_t d = 1; i < vec.size(); d += 2){
 			if (d == i)
@@ -188,7 +224,7 @@ void PmergeMe::forVector(){
 	//debug("ORIGINAL AFTER STEP 2", vec);
 
 
-	// CREATING MAIN CHAIN AND PEND
+	//* CREATING MAIN CHAIN AND PEND
 	std::vector<int> chain;
 	std::vector<int> pend;
 
@@ -206,7 +242,6 @@ void PmergeMe::forVector(){
 	//debug("MAIN CHAIN: ", chain);
 	//debug("PEND: ", pend);
 
-	//! DONT FORGET TO ADD 2(TWO) FOR THE ORIGINAL INDEX OF PEND
 	int end = 0;
 	int t = 1;
 	int t_before = 0;
@@ -215,116 +250,36 @@ void PmergeMe::forVector(){
 
 	std::vector<int> chainOriginal = chain;
 
-	debug("MAIN CHAIN: ", chain);
-	debug("PEND: ", pend);
 	while (true){
 
-		//std::cout << end << std::endl;
 		if (end == 1){
 			break;
 		}
 
 		t = (pow(2, k + 1) + pow(-1, k)) /3;
-		//std::cout << t << std::endl;
 		k_before = k - 1;
 		t_before = (pow(2, k_before + 1) + pow(-1, k_before)) / 3;
-		/* std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[t - 2]);
-		int index = it - chain.begin(); */
 
 		for (int i = t; i > t_before; i--){
 			//* Correct Sequence
 			if (i - 2 > static_cast<int>(pend.size()) - 1){
-				std::cout << "HELLO???" << std::endl;
 				end = 1;
 				continue;
 			}
-			//std::cout << chainOriginal.size() << std::endl;
-			std::cout << chainOriginal[i -1] << std::endl;
-			std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[i - 1]);
-			int index = it - chain.begin();
-			/* std::cout <<"INDEX: " << index - 1 << std::endl;
-			std::cout << chainOriginal[i - 1] << std::endl; */
-			BinaryVec(chain, pend[i - 2], index - 1);
+			if (i >= static_cast<int>(chainOriginal.size())){
+				BinaryVec(chain, pend[i - 2], chain.size());
+			}
+			else {
+				std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[i]);
+				int index = it - chain.begin();
+				BinaryVec(chain, pend[i - 2], index);
+			}
 		}
-		debug("MAIN CHAIN: ", chain);
+		//debug("MAIN CHAIN: ", chain);
 		k++;
 		
 	}
 	vec = chain;
-
-/*
-	std::vector<int> chainOriginal = chain;
-
-	// ADD THE PEND TO THE MAIN CHAIN
-	int chainSize = chain.size();
-	int pendSize = pend.size();
-
-	for (int b = 0; b < chainSize / 2 - 1; b += 2){
-		int b2 = b + 1;
-
-		// FIND INDEX ON CHAIN
-		std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[b2 + 2]);
-		int index = it - chain.begin();
-
-
-		for (int a = 0; a < index; a++){
-			if (b2 + 1 >= chainSize / 2)
-				break;
-			if (pend[b2] < chain[a]){
-				count++;
-				chain.insert(chain.begin() + a, pend[b2]);
-				break;
-			}
-			else if (a == index - 1 && pend[b2] > chain[a]){
-				count++;
-				chain.insert(chain.begin() + a + 1, pend[b2]);
-				break;
-			}
-		}
-		it = std::find(chain.begin(), chain.end(), chainOriginal[b + 2]);
-		index = it - chain.begin();
-		for (int a = 0; a < index; a++){
-			if (pend[b] < chain[a]){
-				count++;
-				chain.insert(chain.begin() + a, pend[b]);
-				break;
-			}
-			else if (a == index - 1 && pend[b] > chain[a]){
-				count++;
-				chain.insert(chain.begin() + a + 1, pend[b]);
-				break;
-			}
-		}
-	}
-
-	//debug("CHAIN FIRST HALF", chain);
-	
-
-
-	for (int b = pendSize; b > chainSize / 2 - 1; b--){
-		int b2 = b - 1;
-		if (b2 + 2 <= chainSize / 2)
-			break;
-		for (size_t a = 0; a < chain.size(); a++){
-			if (pend[b2] < chain[a]){
-				count++;
-				chain.insert(chain.begin() + a, pend[b2]);
-				break;
-			}
-			else if (a == chain.size() - 1 && pend[b2] >= chain[a]){
-				count++;
-				chain.insert(chain.begin() + a + 1, pend[b2]);
-				break;
-			}
-
-		}
-	}
-
-	//debug("CHAIN SECOND HALF", chain);
-	//std::cout << "COUNT: " << count << std::endl;
-
-	vec = chain; */
-
 }
 
 
@@ -375,81 +330,44 @@ void PmergeMe::forDeque(){
 	//debug("MAIN CHAIN: ", chain);
 	//debug("PEND: ", pend);
 
-
-
+	int end = 0;
+	int t = 1;
+	int t_before = 0;
+	int k = 2;
+	int k_before = k - 1;
 
 	std::deque<int> chainOriginal = chain;
 
-	//* ADD THE PEND TO THE MAIN CHAIN
-	int chainSize = chain.size();
-	int pendSize = pend.size();
+	while (true){
 
-	for (int b = 0; b < chainSize / 2 - 1; b += 2){
-		int b2 = b + 1;
-
-		//* FIND INDEX ON CHAIN
-		std::deque<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[b2 + 2]);
-		int index = it - chain.begin();
-
-
-		for (int a = 0; a < index; a++){
-			if (b2 + 1 >= chainSize / 2)
-				break;
-			if (pend[b2] < chain[a]){
-				count++;
-				chain.insert(chain.begin() + a, pend[b2]);
-				break;
-			}
-			else if (a == index - 1 && pend[b2] > chain[a]){
-				count++;
-				chain.insert(chain.begin() + a + 1, pend[b2]);
-				break;
-			}
-		}
-		it = std::find(chain.begin(), chain.end(), chainOriginal[b + 2]);
-		index = it - chain.begin();
-		for (int a = 0; a < index; a++){
-			if (pend[b] < chain[a]){
-				count++;
-				chain.insert(chain.begin() + a, pend[b]);
-				break;
-			}
-			else if (a == index - 1 && pend[b] > chain[a]){
-				count++;
-				chain.insert(chain.begin() + a + 1, pend[b]);
-				break;
-			}
-		}
-	}
-
-	//debug("CHAIN FIRST HALF", chain);
-	
-
-
-	for (int b = pendSize; b > chainSize / 2 - 1; b--){
-		int b2 = b - 1;
-		if (b2 + 2 <= chainSize / 2)
+		if (end == 1){
 			break;
-		for (size_t a = 0; a < chain.size(); a++){
-			if (pend[b2] < chain[a]){
-				count++;
-				chain.insert(chain.begin() + a, pend[b2]);
-				break;
-			}
-			else if (a == chain.size() - 1 && pend[b2] >= chain[a]){
-				count++;
-				chain.insert(chain.begin() + a + 1, pend[b2]);
-				break;
-			}
-
 		}
+
+		t = (pow(2, k + 1) + pow(-1, k)) /3;
+		k_before = k - 1;
+		t_before = (pow(2, k_before + 1) + pow(-1, k_before)) / 3;
+
+		for (int i = t; i > t_before; i--){
+			//* Correct Sequence
+			if (i - 2 > static_cast<int>(pend.size()) - 1){
+				end = 1;
+				continue;
+			}
+			if (i >= static_cast<int>(chainOriginal.size())){
+				BinaryDeq(chain, pend[i - 2], chain.size());
+			}
+			else {
+				std::deque<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[i]);
+				int index = it - chain.begin();
+				BinaryDeq(chain, pend[i - 2], index);
+			}
+		}
+		//debug("MAIN CHAIN: ", chain);
+		k++;
+		
 	}
-
-	//debug("CHAIN SECOND HALF", chain);
-	//std::cout << "COUNT: " << count << std::endl;
-
 	deq = chain;
-
 }
 
 const std::vector<int> *PmergeMe::getVec()const {
