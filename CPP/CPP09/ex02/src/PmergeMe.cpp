@@ -152,17 +152,20 @@ void BinaryDeq(std::deque<int>&chain, int val, int size){
     int high = size - 1;
     int mid = (high + low) / 2;
     int indexToInsert = -1;
+	//static int comp = 0;
 
 	while(low <= high){
         if(mid < 0 || mid > size)
             break;
         if(val < chain[mid])
         {
+			//comp++;
             //check if previous index is valid and lesser than value
             if(mid - 1 >= 0)
             {
                 if(chain[mid - 1] < val)
                 {
+					//comp++;
                     indexToInsert = mid;
                     break;
                 }
@@ -171,11 +174,13 @@ void BinaryDeq(std::deque<int>&chain, int val, int size){
         }
         else if(val > chain[mid])
         {
+			//comp++;
             //check if next index is valid and greater than value
             if(mid + 1 < size)
             {
                 if(chain[mid + 1] > val)
                 {
+					//comp++;
                     indexToInsert = mid + 1;
                     break;
                 }
@@ -184,6 +189,7 @@ void BinaryDeq(std::deque<int>&chain, int val, int size){
         }
 		mid = (high + low) / 2;
     }
+	//std::cout << "COMP: " << comp << std::endl;
     if(indexToInsert == -1)
     {
         if(mid <= 0)
@@ -196,12 +202,12 @@ void BinaryDeq(std::deque<int>&chain, int val, int size){
 
 void PmergeMe::forVector(){
 
-	int count = 0;
+	//int count = 0;
 	//* Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
 	for (size_t i = 0; i < vec.size() - 1; i += 2){
 		if (vec[i] > vec[i + 1]){
 			std::swap(vec[i], vec[i + 1]);
-			count++;
+			//count++;
 		}
 	}
 	
@@ -214,7 +220,7 @@ void PmergeMe::forVector(){
 			if (d == i)
 				break;
 			if (vec[i] < vec[d]){
-				count++;
+				//count++;
 				std::swap(vec[i - 1], vec[d - 1]);
 				std::swap(vec[i], vec[d]);
 			}	
@@ -271,7 +277,9 @@ void PmergeMe::forVector(){
 			}
 			else {
 				std::vector<int>::const_iterator it = std::find(chain.begin(), chain.end(), chainOriginal[i]);
+
 				int index = it - chain.begin();
+				//std::cout << "DISTANCE: "<< std::distance(chain.begin(), std::find(chain.begin(), chain.end(), chainOriginal[i])) << std::endl;
 				BinaryVec(chain, pend[i - 2], index);
 			}
 		}
@@ -284,12 +292,12 @@ void PmergeMe::forVector(){
 
 
 void PmergeMe::forDeque(){
-	int count = 0;
+	//int count = 0;
 	//* Make pairwise comparisons of [n/2] disjoint pairs of elements. (If n is odd, leave one element out.)
 	for (size_t i = 0; i < deq.size() - 1; i += 2){
 		if (deq[i] > deq[i + 1]){
 			std::swap(deq[i], deq[i + 1]);
-			count++;
+			//count++;
 		}
 	}
 	
@@ -302,7 +310,7 @@ void PmergeMe::forDeque(){
 			if (d == i)
 				break;
 			if (deq[i] < deq[d]){
-				count++;
+				//count++;
 				std::swap(deq[i - 1], deq[d - 1]);
 				std::swap(deq[i], deq[d]);
 			}	
